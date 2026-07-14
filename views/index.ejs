@@ -1,0 +1,422 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <%- include('partials/head') %>
+</head>
+<body>
+
+  <nav class="nav" aria-label="Primary">
+    <a href="#top" class="nav__logo">evo<span>trade</span></a>
+    <ul class="nav__links" id="nav-links">
+      <li><a href="#products">Products</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#process">Process</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="#contact" class="btn btn-primary nav__cta">Start a project</a>
+    <button class="nav__toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
+  </nav>
+
+  <main id="top">
+    <!-- ============ HERO ============ -->
+    <header class="hero">
+      <div class="container hero__grid">
+        <div class="hero__copy">
+          <p class="eyebrow hero__eyebrow">Custom business software</p>
+          <h1 class="hero__title">
+            We build the software your <span class="underline">business runs</span> on.
+          </h1>
+          <p class="hero__sub">
+            Evotrade designs and builds point-of-sale, accounting, and ERP systems for retailers,
+            distributors, and wholesalers across Pakistan — real software for real counters,
+            warehouses, and back offices, not templated dashboards.
+          </p>
+          <div class="hero__actions">
+            <a href="#contact" class="btn btn-primary">Start a project</a>
+            <a href="#products" class="btn btn-ghost">See our work</a>
+          </div>
+          <div class="hero__meta">
+            <div class="hero__meta-item">
+              <strong>4</strong>
+              <span>flagship products in production</span>
+            </div>
+            <div class="hero__meta-item">
+              <strong>9</strong>
+              <span>modules in our ERP suite</span>
+            </div>
+            <div class="hero__meta-item">
+              <strong>PKR</strong>
+              <span>built for local business, ground up</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero__frame-wrap">
+          <div class="hero__frame">
+            <div class="hero__frame-chrome"><i></i><i></i><i></i></div>
+            <div class="hero__frame-body">
+              <img src="/assets/screenshots/accounting/dashboard-1.jpeg" alt="Evotrade Accounting Software dashboard showing receivables, payables, and recent sales invoices" loading="eager">
+              <span class="hero__frame-badge">Live</span>
+              <div class="hero__frame-tick">
+                Receivables today <strong data-tick-target="2885000">Rs. 0</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- ============ PRODUCTS ============ -->
+    <section class="section" id="products">
+      <div class="container">
+        <div class="section-head" data-reveal>
+          <h2>Four products, four real businesses running on them.</h2>
+          <p>Every case study below is a shipped, in-use system — the screenshots are pulled directly from production, not mockups.</p>
+        </div>
+      </div>
+
+      <!-- Accounting Software -->
+      <article class="product" style="--accent: var(--acc-accounting); --accent-text: var(--acc-accounting-text);">
+        <div class="container product__grid">
+          <div class="product__copy" data-reveal>
+            <div class="product__tag"><i></i>Accounting &amp; ERP Suite</div>
+            <h3 class="product__name">Evotrade Accounting Software</h3>
+            <p class="product__position">The back office for the whole business, not just the books.</p>
+            <p class="product__desc">
+              Built for businesses that outgrew spreadsheets but don't want ten disconnected tools.
+              A full Chart of Accounts, sales and purchase invoicing with approval states, journal
+              entries, and date-filterable P&amp;L reporting sit alongside CRM, Sales, Purchases, POS,
+              Inventory, Manufacturing, and HR &amp; Payroll modules — one system, one login, one
+              source of truth.
+            </p>
+            <ul class="product__features">
+              <li>Dashboard with A/R and A/P aging, monthly sales trends, and top-customer breakdowns at a glance</li>
+              <li>Sales and purchase invoices with Draft/Approved status tracking, in PKR, tied to real vendor and customer records</li>
+              <li>Nine connected modules — CRM through HR &amp; Payroll — so finance isn't the only team the system serves</li>
+            </ul>
+            <a href="#contact" class="btn btn-ghost">Discuss a system like this</a>
+          </div>
+          <div class="product__visual" data-reveal>
+            <div class="cluster">
+              <div class="frame">
+                <div class="frame__chrome"><i></i><i></i><i></i></div>
+                <div class="frame__body">
+                  <img src="/assets/screenshots/accounting/dashboard-2.jpeg" alt="Accounting dashboard with receivables, payables, and top customers" loading="lazy">
+                </div>
+              </div>
+              <div class="frame">
+                <div class="frame__chrome"><i></i><i></i><i></i></div>
+                <div class="frame__body">
+                  <img src="/assets/screenshots/accounting/sales-invoices-1.jpeg" alt="Sales invoices list with Draft and Approved status badges" loading="lazy">
+                </div>
+              </div>
+              <div class="frame">
+                <div class="frame__chrome"><i></i><i></i><i></i></div>
+                <div class="frame__body">
+                  <img src="/assets/screenshots/accounting/profit-and-loss.jpeg" alt="Profit and loss report with date-range filtering" loading="lazy">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- ElectricStore -->
+      <article class="product product--reverse" style="--accent: var(--acc-electric); --accent-text: var(--acc-electric-text);">
+        <div class="container product__grid">
+          <div class="product__copy" data-reveal>
+            <div class="product__tag"><i></i>POS &amp; ERP System</div>
+            <h3 class="product__name">ElectricStore</h3>
+            <p class="product__position">Built for the electrical supply counter — coils, gauges, and all.</p>
+            <p class="product__desc">
+              Designed specifically for electrical and hardware retailers, where inventory isn't sold
+              by the unit — it's sold by the coil, the meter, the foot, and the kilogram. ElectricStore
+              tracks copper wire by mm and gauge, keeps vendor-wise stock accurate, and lets a counter
+              clerk close a sale in seconds with barcode scan and one-key checkout.
+            </p>
+            <ul class="product__features">
+              <li>Business dashboard tracking revenue, gross profit, receivables/payables, cash &amp; bank, and stock value in one view</li>
+              <li>Vendor-wise stock management with packing units and live low-stock highlighting, down to the coil and the foot</li>
+              <li>Fast POS checkout with barcode scan, category filters, and saved bank/Jazzcash/Easypaisa payment accounts</li>
+            </ul>
+            <a href="#contact" class="btn btn-ghost">Discuss a system like this</a>
+          </div>
+          <div class="product__visual" data-reveal>
+            <div class="stack">
+              <div class="frame">
+                <div class="frame__chrome"><i></i><i></i><i></i></div>
+                <div class="frame__body">
+                  <img src="/assets/screenshots/electric-shop/dashboard.png" alt="ElectricStore dark-mode business dashboard with revenue, stock value, and low stock alerts" loading="lazy">
+                </div>
+              </div>
+              <div class="cluster" style="grid-template-columns: 1fr 1fr;">
+                <div class="frame">
+                  <div class="frame__chrome"><i></i><i></i><i></i></div>
+                  <div class="frame__body">
+                    <img src="/assets/screenshots/electric-shop/pos-checkout.png" alt="ElectricStore POS checkout screen with cart and payment accounts" loading="lazy">
+                  </div>
+                </div>
+                <div class="frame">
+                  <div class="frame__chrome"><i></i><i></i><i></i></div>
+                  <div class="frame__body">
+                    <img src="/assets/screenshots/electric-shop/stock-management.png" alt="ElectricStore stock management screen with vendor-wise inventory" loading="lazy">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- DistriBooks -->
+      <article class="product" style="--accent: var(--acc-distribook); --accent-text: var(--acc-distribook-text);">
+        <div class="container product__grid">
+          <div class="product__copy" data-reveal>
+            <div class="product__tag"><i></i>ERP System</div>
+            <h3 class="product__name">DistriBooks</h3>
+            <p class="product__position">For distributors and wholesalers who sell on credit, not just at the counter.</p>
+            <p class="product__desc">
+              DistriBooks is built around the parts of the business a single-location retail POS
+              was never designed for: wholesale accounts buying on credit, salesman-attributed
+              orders, and physical deliveries that need to be tracked from warehouse to doorstep.
+              Every sale can carry a gate pass; every account keeps a running ledger.
+            </p>
+            <ul class="product__features">
+              <li>Wholesale-account-aware POS checkout — not just walk-in customers — with multiple bank and cash payment methods</li>
+              <li>Outward Gate Pass (OGP) module tracking deliveries by delivery man, salesman, and area, linked directly to each sale</li>
+              <li>Customer ledgers with running debit/credit balances, plus a batch receipts queue for recording multiple payments at once</li>
+            </ul>
+            <a href="#contact" class="btn btn-ghost">Discuss a system like this</a>
+          </div>
+          <div class="product__visual" data-reveal>
+            <div class="cluster">
+              <div class="frame">
+                <div class="frame__chrome"><i></i><i></i><i></i></div>
+                <div class="frame__body">
+                  <img src="/assets/screenshots/distribook/dashboard.png" alt="DistriBooks dashboard with top companies by revenue and low stock alerts" loading="lazy">
+                </div>
+              </div>
+              <div class="frame">
+                <div class="frame__chrome"><i></i><i></i><i></i></div>
+                <div class="frame__body">
+                  <img src="/assets/screenshots/distribook/ogp-delivery.png" alt="DistriBooks Outward Gate Pass delivery tracking module" loading="lazy">
+                </div>
+              </div>
+              <div class="frame">
+                <div class="frame__chrome"><i></i><i></i><i></i></div>
+                <div class="frame__body">
+                  <img src="/assets/screenshots/distribook/customer-ledger.png" alt="DistriBooks customer ledger with running debit and credit balances" loading="lazy">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- POS (placeholder) -->
+      <article class="product product--reverse" style="--accent: var(--acc-pos); --accent-text: var(--acc-pos-text);">
+        <div class="container product__grid">
+          <div class="product__copy" data-reveal>
+            <div class="product__tag"><i></i>Point of Sale</div>
+            <h3 class="product__name">Evotrade POS</h3>
+            <p class="product__position">A counter-first point-of-sale system for single-location retail.</p>
+            <p class="product__desc">
+              Our lightweight POS product for shops that need a fast, reliable till — quick checkout,
+              simple stock tracking, and daily sales reporting — without the overhead of a full ERP.
+              Currently rolling out to pilot retailers; product shots are being finalized.
+            </p>
+            <ul class="product__features">
+              <li>Barcode-first checkout built for high transaction volume at a single counter</li>
+              <li>Daily close-out reporting with cash, card, and mobile-wallet reconciliation</li>
+              <li>Simple stock reordering flags so shelves don't run dry mid-sale</li>
+            </ul>
+            <a href="#contact" class="btn btn-ghost">Discuss a system like this</a>
+          </div>
+          <div class="product__visual" data-reveal>
+            <div class="placeholder-frame">
+              <div class="placeholder-frame__icon">🖼</div>
+              <strong>Screenshot coming soon</strong>
+              <span>Evotrade POS is in active pilot — production shots land here shortly.</span>
+            </div>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- ============ ABOUT ============ -->
+    <section class="section section--tight" id="about">
+      <div class="container">
+        <div class="section-head" data-reveal>
+          <h2>A software house that ships systems businesses actually run on.</h2>
+          <p>We're not a template shop. We design and build custom point-of-sale, accounting, and
+            distribution software — the kind that has to survive a real Saturday rush or a real
+            month-end close.</p>
+        </div>
+        <div class="capabilities__grid">
+          <div class="capability" data-reveal>
+            <h3>Point of sale</h3>
+            <p>Counter-speed checkout, barcode workflows, and multi-account payment handling for single-location and multi-branch retail.</p>
+          </div>
+          <div class="capability" data-reveal>
+            <h3>Accounting &amp; finance</h3>
+            <p>Chart of accounts, invoicing, journal entries, and reporting that a bookkeeper and a business owner can both trust.</p>
+          </div>
+          <div class="capability" data-reveal>
+            <h3>Distribution &amp; wholesale</h3>
+            <p>Credit accounts, salesman-attributed orders, and delivery tracking for businesses that sell to other businesses.</p>
+          </div>
+          <div class="capability" data-reveal>
+            <h3>Full ERP builds</h3>
+            <p>CRM, inventory, manufacturing, and HR &amp; payroll — connected into one system when a business outgrows point solutions.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ PROCESS ============ -->
+    <section class="section section--dark" id="process">
+      <div class="container">
+        <div class="section-head" data-reveal>
+          <h2 style="color: var(--paper);">How a build actually goes.</h2>
+          <p style="color: var(--stone-light);">Four stages, in order — this is the same sequence behind every product on this page.</p>
+        </div>
+        <div class="process__list">
+          <div class="process__step" data-reveal>
+            <span class="process__num">01</span>
+            <h3>Discover</h3>
+            <p>We sit with your counter staff, your bookkeeper, your warehouse team — not just management — to map how the business actually runs.</p>
+          </div>
+          <div class="process__step" data-reveal>
+            <span class="process__num">02</span>
+            <h3>Design</h3>
+            <p>Screens and data models get shaped around real workflows: invoice approvals, gate passes, aging reports — whatever your business runs on.</p>
+          </div>
+          <div class="process__step" data-reveal>
+            <span class="process__num">03</span>
+            <h3>Build</h3>
+            <p>We build in working increments you can see and use early, not a single reveal at the end of a long build cycle.</p>
+          </div>
+          <div class="process__step" data-reveal>
+            <span class="process__num">04</span>
+            <h3>Deploy</h3>
+            <p>Rollout, staff training, and a support line that stays open after launch — software has to survive contact with a real business day.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ STATS / TESTIMONIAL ============ -->
+    <section class="section">
+      <div class="container">
+        <div class="stats" data-reveal style="margin-bottom: var(--space-xl);">
+          <div class="stat">
+            <strong>9</strong>
+            <span>connected modules in our largest ERP build</span>
+          </div>
+          <div class="stat">
+            <strong>4</strong>
+            <span>distinct industries served — retail, electrical, wholesale, finance</span>
+          </div>
+          <div class="stat">
+            <strong>PKR</strong>
+            <span>native currency and tax handling from day one, not bolted on</span>
+          </div>
+        </div>
+        <div class="testimonial" data-reveal>
+          <p>"We stopped closing the books three days late every month. The approval flow on
+            invoices alone paid for the project — nothing goes out the door until someone's
+            actually checked it."</p>
+          <footer><strong>Operations Lead</strong> — wholesale distribution client, Lahore</footer>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CONTACT ============ -->
+    <section class="section section--dark" id="contact">
+      <div class="container">
+        <div class="section-head" data-reveal>
+          <h2 style="color: var(--paper);">Tell us what your business runs on.</h2>
+          <p style="color: var(--stone-light);">Point of sale, accounting, distribution — if it's custom business software, we want to hear about it.</p>
+        </div>
+        <div class="contact__grid">
+          <form id="contact-form" data-reveal novalidate>
+            <div class="field">
+              <label for="name">Name</label>
+              <input type="text" id="name" name="name" placeholder="Your full name" required>
+            </div>
+            <div class="field">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" placeholder="you@company.com" required>
+            </div>
+            <div class="field">
+              <label for="company">Company</label>
+              <input type="text" id="company" name="company" placeholder="Business name">
+            </div>
+            <div class="field">
+              <label for="message">What are you building?</label>
+              <textarea id="message" name="message" placeholder="Tell us about your business and what you need." required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Send message</button>
+            <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+          </form>
+          <div class="contact__info" data-reveal>
+            <div class="contact__info-item">
+              <strong>Email</strong>
+              <a href="mailto:hello@evotrade.dev">hello@evotrade.dev</a>
+            </div>
+            <div class="contact__info-item">
+              <strong>Based in</strong>
+              <p>Lahore, Pakistan — working with clients nationwide</p>
+            </div>
+            <div class="contact__info-item">
+              <strong>Response time</strong>
+              <p>Within one business day</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div>
+          <div class="footer__logo">evo<span>trade</span></div>
+          <p class="footer__tagline">Custom point-of-sale, accounting, and ERP software for retail, distribution, and wholesale businesses.</p>
+        </div>
+        <div>
+          <h4>Products</h4>
+          <ul>
+            <li><a href="#products">Accounting Software</a></li>
+            <li><a href="#products">ElectricStore</a></li>
+            <li><a href="#products">DistriBooks</a></li>
+            <li><a href="#products">Evotrade POS</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Company</h4>
+          <ul>
+            <li><a href="#about">About</a></li>
+            <li><a href="#process">Process</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Connect</h4>
+          <ul>
+            <li><a href="mailto:hello@evotrade.dev">Email</a></li>
+            <li><a href="#" onclick="return false;">LinkedIn</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <span>© <%= new Date().getFullYear() %> Evotrade. All rights reserved.</span>
+        <span>Built with Node.js &amp; Express.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/main.js"></script>
+</body>
+</html>
