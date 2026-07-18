@@ -1,6 +1,6 @@
 require('dotenv').config();
 const express = require('express');
-const session = require('express-session');
+const cookieSession = require('cookie-session');
 const path = require('path');
 
 const app = express();
@@ -14,15 +14,16 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
 
-app.use(session({
-  secret: process.env.SESSION_SECRET || 'dev-only-insecure-secret-change-in-production',
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-    maxAge: 8 * 60 * 60 * 1000, // 8 hours
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-  },
+// Stateless, signed-cookie session — the whole session lives in the cookie itself,
+// so it works correctly even if Hostinger runs multiple app processes/instances
+// (a server-side memory store would only be visible to whichever process set it).
+app.use(cookieSession({
+  name: 'session',
+  keys: [process.env.SESSION_SECRET || 'dev-only-insecure-secret-change-in-production'],
+  maxAge: 8 * 60 * 60 * 1000, // 8 hours
+  httpOnly: true,
+  secure: process.env.NODE_ENV === 'production',
+  sameSite: 'lax',
 }));
 
 app.use('/admin', require('./routes/admin'));
