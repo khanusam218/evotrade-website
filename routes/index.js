@@ -296,24 +296,64 @@ router.get('/privacy-policy', (req, res) => {
   }));
 });
 
-/* ---------- Forms (stubbed: logged server-side; see README) ---------- */
-router.post('/contact', (req, res) => {
+/* ---------- Forms (logged server-side + emailed via lib/mailer.js) ---------- */
+const { sendMail } = require('../lib/mailer');
+
+const escapeHtml = (s) =>
+  String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+router.post('/contact', async (req, res) => {
   const { name, email, company, message } = req.body;
   if (!name || !email || !message) {
     return res.status(400).json({ ok: false, error: 'Name, email, and message are required.' });
   }
   console.log('--- Contact form submission ---');
   console.log({ name, email, company: company || '—', message });
+
+  try {
+    await sendMail({
+      subject: `New contact form submission — ${name}`,
+      replyTo: email,
+      html: `
+        <h2>New contact form submission</h2>
+        <p><strong>Name:</strong> ${escapeHtml(name)}</p>
+        <p><strong>Email:</strong> ${escapeHtml(email)}</p>
+        <p><strong>Company:</strong> ${escapeHtml(company || '—')}</p>
+        <p><strong>Message:</strong></p>
+        <p>${escapeHtml(message).replace(/\n/g, '<br>')}</p>
+      `,
+    });
+  } catch (err) {
+    console.error('[mailer] contact form send failed:', err.message);
+  }
+
   res.json({ ok: true });
 });
 
-router.post('/waitlist', (req, res) => {
+router.post('/waitlist', async (req, res) => {
   const { name, email, phone, product } = req.body;
   if (!name || !email || !product) {
     return res.status(400).json({ ok: false, error: 'Name, email, and product are required.' });
   }
   console.log('--- Waitlist signup ---');
   console.log({ name, email, phone: phone || '—', product });
+
+  try {
+    await sendMail({
+      subject: `Waitlist signup — ${product}`,
+      replyTo: email,
+      html: `
+        <h2>New waitlist signup</h2>
+        <p><strong>Product:</strong> ${escapeHtml(product)}</p>
+        <p><strong>Name:</strong> ${escapeHtml(name)}</p>
+        <p><strong>Email:</strong> ${escapeHtml(email)}</p>
+        <p><strong>Phone:</strong> ${escapeHtml(phone || '—')}</p>
+      `,
+    });
+  } catch (err) {
+    console.error('[mailer] waitlist signup send failed:', err.message);
+  }
+
   res.json({ ok: true });
 });
 

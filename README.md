@@ -65,12 +65,35 @@ sitemap, and JSON-LD schema all update automatically from that one file.
 - Target keywords are recorded per product in the `keywords` array (reference for
   future content edits; titles/descriptions already use them).
 
-## Forms (stubbed — wire up before launch)
+## Email setup (contact & waitlist forms)
 
-`POST /contact` and `POST /waitlist` validate input and **log to the server console
-only**. No email service is configured. To enable delivery, replace the
-`console.log` blocks in `routes/index.js` with Nodemailer/SendGrid/Postmark calls —
-payloads are already validated.
+`POST /contact` and `POST /waitlist` always log submissions to the server console,
+and will also send an email via Gmail/Google Workspace SMTP (`lib/mailer.js`) once
+configured. Without configuration, they silently fall back to console-only logging
+— forms still work, you just won't get an email.
+
+**1. Generate a Google App Password** (not your regular account password):
+   - Go to [myaccount.google.com/apppasswords](https://myaccount.google.com/apppasswords)
+     (requires 2-Step Verification enabled on the account).
+   - Create an app password for "Mail", copy the 16-character code.
+
+**2. Set environment variables** — copy `.env.example` to `.env` and fill in:
+   ```
+   EMAIL_USER=support@evotrade.io
+   EMAIL_APP_PASSWORD=<the 16-character app password>
+   EMAIL_TO=support@evotrade.io
+   ```
+   `.env` is gitignored — never commit real credentials. Locally, `server.js` loads
+   it automatically via `dotenv`. On Hostinger, set the same three variables in the
+   hosting panel's **Environment Variables** section (Node.js app settings) instead
+   of using a `.env` file.
+
+**3. Restart the app** after setting the variables. Test by submitting the contact
+form — check the inbox at `EMAIL_TO`.
+
+To switch providers (SendGrid, Postmark, etc.) instead of Gmail, edit
+`lib/mailer.js` — `sendMail()` is the only function the routes call, so swapping
+the transport underneath doesn't require touching `routes/index.js`.
 
 ## Customizing the color tokens
 
