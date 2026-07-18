@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <%- include('partials/head') %>
+</head>
+<body>
+  <%- include('partials/nav') %>
+
+  <main id="main">
+    <header class="page-hero">
+      <div class="container">
+        <%- include('partials/breadcrumbs') %>
+        <p class="eyebrow" data-reveal>Pricing</p>
+        <h1 data-reveal>One price. Every product. No fine print.</h1>
+        <p class="page-hero__sub" data-reveal>
+          Most business software in Pakistan costs Rs. 2,500–10,000 a month with setup fees on top.
+          Ours doesn't — because software is how our parent firm serves its clients, not our only
+          revenue line.
+        </p>
+      </div>
+    </header>
+
+    <section class="section section--tight">
+      <div class="container">
+        <div class="plans">
+          <div class="plan" data-reveal>
+            <h2>TaxAccountant.pk clients</h2>
+            <div class="plan__price"><strong>Free</strong></div>
+            <p class="plan__blurb">Every Evotrade product, included with your tax engagement.</p>
+            <ul class="plan__list">
+              <li>All 9 products, no per-product charge</li>
+              <li>FBR Digital Invoicing included for sales-tax-registered clients</li>
+              <li>Onboarding, training &amp; WhatsApp support</li>
+              <li>Your accounting and compliance handled by the same firm</li>
+            </ul>
+            <a href="<%= site.parentCompany.url %>" class="btn btn-ghost" rel="noopener">Become a client</a>
+          </div>
+          <div class="plan plan--featured" data-reveal>
+            <h2>Monthly</h2>
+            <div class="plan__price"><strong>Rs. 1,000</strong><span>/month per product</span></div>
+            <p class="plan__blurb">Start with one product. Add more when you need them.</p>
+            <ul class="plan__list">
+              <li>No setup fees, no per-branch surprises</li>
+              <li>Onboarding &amp; staff training included</li>
+              <li>WhatsApp + phone support, Mon–Sat</li>
+              <li>Cancel anytime — export your data freely</li>
+            </ul>
+            <a href="/contact" class="btn btn-primary">Book a free demo</a>
+          </div>
+          <div class="plan" data-reveal>
+            <h2>Yearly</h2>
+            <div class="plan__price"><strong>Rs. 9,600</strong><span>/year per product</span></div>
+            <p class="plan__blurb">20% off — two months and change, free.</p>
+            <ul class="plan__list">
+              <li>Everything in Monthly</li>
+              <li>Rs. 800/month effective rate</li>
+              <li>Price locked for the year</li>
+              <li>Priority onboarding</li>
+            </ul>
+            <a href="/contact" class="btn btn-ghost">Start yearly</a>
+          </div>
+        </div>
+
+        <div class="compare" data-reveal>
+          <h2 class="h-md">How that compares</h2>
+          <div class="table-scroll">
+            <table>
+              <caption class="sr-only">Comparison of typical monthly POS software pricing in Pakistan versus Evotrade</caption>
+              <thead>
+                <tr><th scope="col">Typical market pricing (Pakistan)</th><th scope="col">Evotrade</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Basic retail POS: Rs. 2,500–3,000/month</td><td rowspan="4"><strong>Rs. 1,000/month flat</strong> — any product, every business type. Rs. 800/month effective on yearly billing. Free for TaxAccountant.pk clients.</td></tr>
+                <tr><td>Restaurant POS: Rs. 4,000–7,000/month</td></tr>
+                <tr><td>FBR-integrated POS: from Rs. 5,000/month</td></tr>
+                <tr><td>Setup fees: up to Rs. 50,000 per branch</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <%- include('partials/cta') %>
+  </main>
+
+  <%- include('partials/footer') %>
+</body>
+</html>

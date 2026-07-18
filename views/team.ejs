@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <%- include('partials/head') %>
+</head>
+<body>
+  <%- include('partials/nav') %>
+
+  <main id="main">
+    <header class="page-hero">
+      <div class="container">
+        <%- include('partials/breadcrumbs') %>
+        <p class="eyebrow" data-reveal>Our team</p>
+        <h1 data-reveal>The people who build and back this software.</h1>
+        <p class="page-hero__sub" data-reveal>
+          Evotrade is the software division of <a href="<%= site.parentCompany.url %>" rel="noopener"><%= site.parentCompany.name %></a> —
+          one company, two departments. The engineers who ship DistriBooks and ElectricStore sit
+          down the hall from the tax practitioners who keep our compliance features accurate.
+        </p>
+      </div>
+    </header>
+
+    <section class="section section--tight">
+      <div class="container">
+        <div class="section-head" data-reveal>
+          <h2 class="h-md">Evotrade Software</h2>
+          <p>Engineering, marketing, and content — the team behind every product on this site.</p>
+        </div>
+        <div class="team-grid">
+          <% softwareTeam.forEach(function (p) { %>
+          <div class="team-card" data-reveal>
+            <div class="team-card__avatar"><%= p.name.split(' ').map(function(w){return w[0];}).slice(0,2).join('') %></div>
+            <strong><%= p.name %></strong>
+            <span class="team-card__role"><%= p.role %></span>
+            <span class="team-card__years"><%= p.years %> year<%= p.years === 1 ? '' : 's' %> experience</span>
+          </div>
+          <% }) %>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--dark">
+      <div class="container">
+        <div class="section-head" data-reveal>
+          <h2 class="h-md" style="color: var(--paper);">Tax &amp; Legal</h2>
+          <p style="color: var(--stone-light);">The practitioners at <%= site.parentCompany.name %> whose expertise shapes our compliance and payroll features.</p>
+        </div>
+        <div class="team-grid team-grid--dark">
+          <% taxLegalTeam.forEach(function (p) { %>
+          <div class="team-card team-card--dark" data-reveal>
+            <div class="team-card__avatar"><%= p.name.split(' ').map(function(w){return w[0];}).slice(0,2).join('') %></div>
+            <strong><%= p.name %></strong>
+            <span class="team-card__role"><%= p.role %></span>
+            <% if (p.specializations) { %><span class="team-card__spec"><%= p.specializations %></span><% } %>
+            <% if (p.credentials) { %><span class="team-card__spec"><%= p.credentials %></span><% } %>
+            <span class="team-card__years"><%= p.years %> year<%= p.years === 1 ? '' : 's' %> experience</span>
+          </div>
+          <% }) %>
+        </div>
+        <p class="team-note" data-reveal>
+          Full professional profiles and credentials for the Tax &amp; Legal team are published on
+          <a href="<%= site.parentCompany.teamUrl %>" rel="noopener"><%= site.parentCompany.name %>'s team page →</a>
+        </p>
+      </div>
+    </section>
+
+    <%- include('partials/cta') %>
+  </main>
+
+  <%- include('partials/footer') %>
+</body>
+</html>

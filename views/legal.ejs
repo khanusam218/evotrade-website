@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <%- include('partials/head') %>
+</head>
+<body>
+  <%- include('partials/nav') %>
+
+  <main id="main">
+    <header class="page-hero">
+      <div class="container narrow">
+        <%- include('partials/breadcrumbs') %>
+        <p class="eyebrow" data-reveal>Legal</p>
+        <h1 data-reveal><%= legalPage === 'terms' ? 'Terms of Usage' : 'Privacy Policy' %></h1>
+        <p class="post-meta" data-reveal>Last updated: July 2026</p>
+      </div>
+    </header>
+
+    <section class="section section--tight">
+      <div class="container narrow">
+        <div class="prose">
+          <% if (legalPage === 'terms') { %>
+            <h2>1. Agreement</h2>
+            <p>These Terms of Usage govern your use of the evotrade.io website and Evotrade software products ("Services"), operated by Evotrade, the software division of TaxAccountant.pk. By accessing the website or subscribing to any product, you agree to these terms.</p>
+
+            <h2>2. Accounts &amp; subscriptions</h2>
+            <p>Product subscriptions are billed at Rs. 1,000 per month per product, or Rs. 9,600 per year per product (20% discount). Active TaxAccountant.pk clients receive access free of charge for the duration of their engagement. You are responsible for maintaining the confidentiality of your login credentials and for all activity under your account.</p>
+
+            <h2>3. Acceptable use</h2>
+            <p>You agree not to misuse the Services — including attempting unauthorized access, reselling access without written agreement, interfering with service operation, or using the Services for unlawful activity. We may suspend accounts that violate these terms, with notice where practicable.</p>
+
+            <h2>4. Your data</h2>
+            <p>Data you enter into Evotrade products — sales, ledgers, stock, customers, and payroll records — belongs to you. You may export your data at any time. If your subscription ends, we will retain your data for 90 days to allow export, after which it may be deleted.</p>
+
+            <h2>5. Service availability</h2>
+            <p>We aim for continuous availability but do not guarantee uninterrupted service. Scheduled maintenance will be communicated in advance where possible. Offline-capable products queue transactions locally during connectivity interruptions.</p>
+
+            <h2>6. Compliance features</h2>
+            <p>Features supporting FBR digital invoicing, tax calculation, and payroll slabs are maintained with professional care by our parent tax practice. However, statutory compliance remains your responsibility; software output should be reviewed by your tax advisor. TaxAccountant.pk clients receive this review as part of their engagement.</p>
+
+            <h2>7. Limitation of liability</h2>
+            <p>To the maximum extent permitted by law, Evotrade is not liable for indirect, incidental, or consequential damages arising from use of the Services. Our total liability for any claim is limited to the subscription fees paid in the twelve months preceding the claim.</p>
+
+            <h2>8. Changes</h2>
+            <p>We may update these terms from time to time. Material changes will be announced on this page with an updated date. Continued use after changes constitutes acceptance.</p>
+
+            <h2>9. Contact</h2>
+            <p>Questions about these terms: <a href="mailto:support@evotrade.io">support@evotrade.io</a> or +92 339 505 0983.</p>
+          <% } else { %>
+            <h2>1. Who we are</h2>
+            <p>Evotrade ("we") is the software division of TaxAccountant.pk, with offices in Rawalpindi and Gujranwala, Pakistan. This policy explains what data we collect through evotrade.io and our software products, and how we handle it.</p>
+
+            <h2>2. What we collect</h2>
+            <p><strong>Website:</strong> contact and waitlist form submissions (name, email, phone, company, message).</p>
+            <p><strong>Products:</strong> account details (name, email, phone), and the business data you enter — sales, purchases, stock, customer ledgers, and payroll records.</p>
+
+            <h2>3. How we use it</h2>
+            <ul>
+              <li>To provide and operate the software you subscribe to.</li>
+              <li>To respond to inquiries and demo requests.</li>
+              <li>To notify waitlist members about product launches.</li>
+              <li>To improve our products, using aggregated, non-identifying usage patterns.</li>
+            </ul>
+            <p>We do not sell your data. We do not share your business data with third parties except as required to operate the service (e.g., cloud hosting) or by law (e.g., FBR submission of invoices you initiate).</p>
+
+            <h2>4. Your business data</h2>
+            <p>Data you enter into Evotrade products belongs to you. You can export it at any time. On subscription end, data is retained 90 days for export, then may be deleted. For TaxAccountant.pk clients, data handling also follows your engagement terms with the firm.</p>
+
+            <h2>5. Security</h2>
+            <p>Products run on secured cloud infrastructure with encrypted connections and daily backups. Access to client data within our team is restricted to support and engineering staff who need it to serve you.</p>
+
+            <h2>6. Cookies &amp; analytics</h2>
+            <p>The website uses only essential cookies required for operation. If we add analytics, this policy will be updated and consent requested where required.</p>
+
+            <h2>7. Your rights</h2>
+            <p>You may request a copy, correction, or deletion of your personal data at any time by contacting <a href="mailto:support@evotrade.io">support@evotrade.io</a>. We respond within one business day on most requests.</p>
+
+            <h2>8. Changes</h2>
+            <p>Updates to this policy will be posted on this page with a revised date.</p>
+
+            <h2>9. Contact</h2>
+            <p><a href="mailto:support@evotrade.io">support@evotrade.io</a> · +92 339 505 0983 · Office 1, First Floor, United Plaza, Main Service Road, Khanna Pul, Rawalpindi.</p>
+          <% } %>
+        </div>
+      </div>
+    </section>
+
+    <%- include('partials/footer') %>
+  </main>
+</body>
+</html>

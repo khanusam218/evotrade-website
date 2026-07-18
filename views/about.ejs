@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <%- include('partials/head') %>
+</head>
+<body>
+  <%- include('partials/nav') %>
+
+  <main id="main">
+    <header class="page-hero">
+      <div class="container">
+        <%- include('partials/breadcrumbs') %>
+        <p class="eyebrow" data-reveal>About us</p>
+        <h1 data-reveal>The software division of a working tax practice.</h1>
+        <p class="page-hero__sub" data-reveal>
+          Evotrade was born inside <a href="<%= site.parentCompany.url %>" rel="noopener"><%= site.parentCompany.name %></a>,
+          a Pakistani tax and accounting firm — which means our software is shaped by people who
+          file returns, close books, and face FBR deadlines for a living.
+        </p>
+      </div>
+    </header>
+
+    <section class="section section--tight">
+      <div class="container narrow">
+        <div class="prose" data-reveal>
+          <h2>Why a tax firm builds software</h2>
+          <p>
+            Year after year, our tax practice watched the same story: clients keeping sales in
+            registers, stock in memory, and accounts in a shoebox — then paying for it at filing
+            time. Off-the-shelf software didn't fix it, because it wasn't built for how Pakistani
+            businesses actually trade: credit accounts, gate passes, IMEIs, wire sold by the meter,
+            payments split across bank, Jazzcash, and Easypaisa.
+          </p>
+          <p>
+            So we built our own. First for our clients — every <%= site.parentCompany.name %>
+            client gets Evotrade software free — and now for any business in Pakistan at
+            Rs. 1,000/month. DistriBooks and ElectricStore run in production today; seven more
+            products are rolling out on their own subdomains.
+          </p>
+          <h2>What we build</h2>
+          <ul>
+            <li><strong>Point of sale</strong> — retail, restaurant, mobile shop, and electrical counter POS.</li>
+            <li><strong>Accounting &amp; ERP</strong> — chart of accounts through P&amp;L, with CRM, inventory, manufacturing, and HR modules.</li>
+            <li><strong>Distribution</strong> — wholesale credit accounts, salesman orders, and delivery gate passes.</li>
+            <li><strong>Compliance</strong> — FBR digital invoicing with PRAL integration, and payroll on current FBR slabs.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--dark">
+      <div class="container">
+        <div class="section-head" data-reveal>
+          <h2 style="color: var(--paper);">The people behind it</h2>
+          <p style="color: var(--stone-light);">Two departments, one office culture: tax practitioners and software engineers working the same client problems.</p>
+        </div>
+        <div class="team-band" data-reveal>
+          <div class="team-band__item">
+            <strong>Tax &amp; Legal</strong>
+            <p>FBR-registered practitioners, ICAP-certified accountants, and corporate law specialists with up to 16 years of experience.</p>
+          </div>
+          <div class="team-band__item">
+            <strong>Evotrade Software</strong>
+            <p>Full-stack and front-end engineers, plus digital marketing and content teams — the builders of DistriBooks and ElectricStore.</p>
+          </div>
+        </div>
+        <div style="margin-top: var(--space-md);" data-reveal>
+          <a href="/team" class="btn btn-primary">Meet the full team →</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--tight">
+      <div class="container">
+        <div class="section-head" data-reveal>
+          <h2 class="h-md">Where we work</h2>
+        </div>
+        <div class="office-grid">
+          <% site.offices.forEach(function (o) { %>
+          <div class="office" data-reveal>
+            <strong><%= o.city %> — <%= o.label %></strong>
+            <p><%= o.address %></p>
+            <p><a href="tel:<%= o.phoneHref %>"><%= o.phone %></a> · <%= o.hours %></p>
+          </div>
+          <% }) %>
+        </div>
+      </div>
+    </section>
+
+    <%- include('partials/cta') %>
+  </main>
+
+  <%- include('partials/footer') %>
+</body>
+</html>

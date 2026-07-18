@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <%- include('partials/head') %>
+</head>
+<body>
+  <%- include('partials/nav') %>
+
+  <main id="main">
+    <header class="page-hero">
+      <div class="container">
+        <%- include('partials/breadcrumbs') %>
+        <p class="eyebrow" data-reveal>FAQs</p>
+        <h1 data-reveal>Frequently asked questions.</h1>
+        <p class="page-hero__sub" data-reveal>
+          Pricing, the free tier, product availability, data ownership, and compliance — answered
+          straight. Anything missing? <a href="/contact">Ask us directly</a>.
+        </p>
+      </div>
+    </header>
+
+    <section class="section section--tight">
+      <div class="container narrow">
+        <div class="faq-list">
+          <% faqs.forEach(function (f) { %>
+          <details class="faq" data-reveal>
+            <summary><%= f.q %></summary>
+            <p><%= f.a %></p>
+          </details>
+          <% }) %>
+        </div>
+      </div>
+    </section>
+
+    <%- include('partials/cta') %>
+  </main>
+
+  <%- include('partials/footer') %>
+</body>
+</html>

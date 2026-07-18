@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <%- include('partials/head') %>
+</head>
+<body>
+  <%- include('partials/nav') %>
+
+  <main id="main" style="--accent: var(--acc-<%= product.accent %>); --accent-text: var(--acc-<%= product.accent %>-text);">
+    <header class="page-hero page-hero--product">
+      <div class="container">
+        <%- include('partials/breadcrumbs') %>
+        <div class="page-hero__grid">
+          <div>
+            <div class="product__tag" data-reveal><i></i><%= product.category %>
+              <% if (product.status === 'live') { %>
+                <span class="badge badge--live">Live</span>
+              <% } else { %>
+                <span class="badge badge--soon">Coming soon</span>
+              <% } %>
+            </div>
+            <h1 data-reveal><%= product.name %></h1>
+            <p class="page-hero__position" data-reveal><%= product.position %></p>
+            <p class="page-hero__sub" data-reveal><%= product.intro %></p>
+            <div class="hero__actions" data-reveal>
+              <% if (product.status === 'live') { %>
+                <a href="<%= product.appUrl %>" class="btn btn-primary" rel="noopener">Log in to <%= product.name %></a>
+                <a href="/contact" class="btn btn-ghost">Book a free demo</a>
+              <% } else { %>
+                <a href="#waitlist" class="btn btn-primary">Join the waitlist</a>
+                <a href="/contact" class="btn btn-ghost">Talk to us first</a>
+              <% } %>
+            </div>
+            <p class="price-note" data-reveal>
+              <strong>Free</strong> for <%= site.parentCompany.name %> clients ·
+              <strong>Rs. <%= site.pricing.monthly.toLocaleString('en-PK') %>/month</strong> standalone ·
+              20% off yearly
+            </p>
+          </div>
+          <% if (product.heroImage) { %>
+          <div class="page-hero__visual" data-reveal>
+            <div class="frame">
+              <div class="frame__chrome"><i></i><i></i><i></i></div>
+              <div class="frame__body frame__body--natural">
+                <img src="<%= product.heroImage %>" alt="<%= product.heroAlt %>" fetchpriority="high">
+              </div>
+            </div>
+          </div>
+          <% } else { %>
+          <div class="page-hero__visual" data-reveal>
+            <div class="placeholder-frame">
+              <div class="placeholder-frame__icon">🖼</div>
+              <strong>Screenshots coming soon</strong>
+              <span><%= product.name %> is being prepared for launch at <%= product.appUrl.replace('https://','') %>.</span>
+            </div>
+          </div>
+          <% } %>
+        </div>
+      </div>
+    </header>
+
+    <!-- Problem -->
+    <section class="section section--tight">
+      <div class="container narrow">
+        <h2 class="h-md" data-reveal>The problem it solves</h2>
+        <p class="lede" data-reveal><%= product.problem %></p>
+        <p class="audience" data-reveal><strong>Built for:</strong> <%= product.audience %></p>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section class="section section--dark">
+      <div class="container">
+        <div class="section-head" data-reveal>
+          <h2 style="color: var(--paper);">What's inside</h2>
+        </div>
+        <div class="feature-grid">
+          <% product.features.forEach(function (f) { %>
+          <div class="feature" data-reveal>
+            <h3><%= f.h %></h3>
+            <p><%= f.p %></p>
+          </div>
+          <% }) %>
+        </div>
+      </div>
+    </section>
+
+    <!-- Screenshots -->
+    <% if (product.screenshots && product.screenshots.length) { %>
+    <section class="section">
+      <div class="container">
+        <div class="section-head" data-reveal>
+          <h2>Straight from production</h2>
+          <p>Real screens from the live system — not mockups.</p>
+        </div>
+        <div class="shot-grid">
+          <% product.screenshots.forEach(function (s) { %>
+          <div class="frame" data-reveal>
+            <div class="frame__chrome"><i></i><i></i><i></i></div>
+            <div class="frame__body frame__body--natural">
+              <img src="<%= s.src %>" alt="<%= s.alt %>" loading="lazy">
+            </div>
+          </div>
+          <% }) %>
+        </div>
+      </div>
+    </section>
+    <% } %>
+
+    <!-- Waitlist for coming-soon products -->
+    <% if (product.status !== 'live') { %>
+    <section class="section section--tight" id="waitlist">
+      <div class="container narrow">
+        <div class="waitlist-box" data-reveal>
+          <h2 class="h-md">Be first at the counter.</h2>
+          <p><%= product.name %> launches at <strong><%= product.appUrl.replace('https://','') %></strong>. Leave your details and we'll notify you the day it opens — <%= site.parentCompany.name %> clients get it free.</p>
+          <form id="waitlist-form" novalidate>
+            <input type="hidden" name="product" value="<%= product.name %>">
+            <div class="field-row">
+              <div class="field">
+                <label for="wl-name">Name</label>
+                <input type="text" id="wl-name" name="name" placeholder="Your full name" required autocomplete="name">
+              </div>
+              <div class="field">
+                <label for="wl-email">Email</label>
+                <input type="email" id="wl-email" name="email" placeholder="you@company.com" required autocomplete="email">
+              </div>
+            </div>
+            <div class="field">
+              <label for="wl-phone">Phone / WhatsApp (optional)</label>
+              <input type="tel" id="wl-phone" name="phone" placeholder="03xx xxxxxxx" autocomplete="tel">
+            </div>
+            <button type="submit" class="btn btn-primary">Join the waitlist</button>
+            <p class="form-status" id="waitlist-status" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+      </div>
+    </section>
+    <% } %>
+
+    <!-- Product FAQs -->
+    <% if (product.faqs && product.faqs.length) { %>
+    <section class="section section--tight">
+      <div class="container narrow">
+        <h2 class="h-md" data-reveal>Common questions</h2>
+        <div class="faq-list">
+          <% product.faqs.forEach(function (f) { %>
+          <details class="faq" data-reveal>
+            <summary><%= f.q %></summary>
+            <p><%= f.a %></p>
+          </details>
+          <% }) %>
+        </div>
+      </div>
+    </section>
+    <% } %>
+
+    <!-- Related products -->
+    <section class="section section--tight">
+      <div class="container">
+        <div class="section-head" data-reveal>
+          <h2 class="h-md">More from the suite</h2>
+        </div>
+        <div class="product-grid product-grid--related">
+          <% products.filter(function (p) { return p.slug !== product.slug; }).slice(0, 3).forEach(function (p) { %>
+          <a class="product-card" href="/products/<%= p.slug %>" style="--accent: var(--acc-<%= p.accent %>); --accent-text: var(--acc-<%= p.accent %>-text);" data-reveal>
+            <div class="product-card__top">
+              <span class="product-card__tag"><i></i><%= p.category %></span>
+              <% if (p.status === 'live') { %><span class="badge badge--live">Live</span><% } else { %><span class="badge badge--soon">Coming soon</span><% } %>
+            </div>
+            <h3><%= p.name %></h3>
+            <p><%= p.position %></p>
+            <span class="product-card__link">View product →</span>
+          </a>
+          <% }) %>
+        </div>
+      </div>
+    </section>
+
+    <%- include('partials/cta') %>
+  </main>
+
+  <%- include('partials/footer') %>
+</body>
+</html>

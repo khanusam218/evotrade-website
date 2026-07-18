@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <%- include('partials/head') %>
+</head>
+<body>
+  <%- include('partials/nav') %>
+
+  <main id="main">
+    <header class="page-hero">
+      <div class="container">
+        <%- include('partials/breadcrumbs') %>
+        <p class="eyebrow" data-reveal>Blog</p>
+        <h1 data-reveal>Guides for running a compliant, well-run business in Pakistan.</h1>
+        <p class="page-hero__sub" data-reveal>
+          FBR deadlines, software buying advice, and lessons from real deployments — written by the
+          team behind DistriBooks and ElectricStore.
+        </p>
+      </div>
+    </header>
+
+    <section class="section section--tight">
+      <div class="container">
+        <div class="blog-grid blog-grid--index">
+          <% posts.forEach(function (p) { %>
+          <a class="blog-card" href="/blog/<%= p.slug %>" data-reveal>
+            <span class="blog-card__tag"><%= p.tags.join(' · ') %></span>
+            <h2><%= p.title %></h2>
+            <p><%= p.excerpt %></p>
+            <span class="blog-card__meta"><%= p.dateDisplay %> · <%= p.readTime %></span>
+          </a>
+          <% }) %>
+        </div>
+      </div>
+    </section>
+
+    <%- include('partials/cta') %>
+  </main>
+
+  <%- include('partials/footer') %>
+</body>
+</html>

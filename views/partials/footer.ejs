@@ -1,0 +1,47 @@
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div>
+        <div class="footer__logo">evo<span>trade</span></div>
+        <p class="footer__tagline">Business software for Pakistan — POS, accounting, ERP, payroll, and FBR digital invoicing. The software division of <a href="<%= site.parentCompany.url %>" rel="noopener">TaxAccountant.pk</a>.</p>
+      </div>
+      <div>
+        <h4>Products</h4>
+        <ul>
+          <% products.forEach(function (p) { %>
+          <li><a href="/products/<%= p.slug %>"><%= p.name %></a></li>
+          <% }) %>
+        </ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul>
+          <li><a href="/about">About us</a></li>
+          <li><a href="/team">Our team</a></li>
+          <li><a href="/pricing">Pricing</a></li>
+          <li><a href="/blog">Blog</a></li>
+          <li><a href="/faqs">FAQs</a></li>
+          <li><a href="/contact">Contact us</a></li>
+          <li><a href="/terms-of-usage">Terms of Usage</a></li>
+          <li><a href="/privacy-policy">Privacy Policy</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="mailto:<%= site.email %>"><%= site.email %></a></li>
+          <li><a href="<%= site.whatsapp %>" rel="noopener">WhatsApp: <%= site.phone %></a></li>
+          <li><a href="tel:<%= site.phoneHref %>"><%= site.phone %></a></li>
+          <li><a href="<%= site.social.facebook %>" rel="noopener">Facebook</a></li>
+          <li><a href="<%= site.social.instagram %>" rel="noopener">Instagram</a></li>
+          <li><a href="<%= site.social.linkedin %>" rel="noopener">LinkedIn</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span>© <%= new Date().getFullYear() %> Evotrade — a <%= site.parentCompany.name %> company. All rights reserved.</span>
+      <span><%= site.offices[0].city %> · <%= site.offices[1].city %></span>
+    </div>
+  </div>
+</footer>
+<script src="/js/main.js" defer></script>

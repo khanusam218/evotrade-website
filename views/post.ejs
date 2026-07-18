@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <%- include('partials/head') %>
+</head>
+<body>
+  <%- include('partials/nav') %>
+
+  <main id="main">
+    <header class="page-hero page-hero--post">
+      <div class="container narrow">
+        <%- include('partials/breadcrumbs') %>
+        <p class="eyebrow" data-reveal><%= post.tags.join(' · ') %></p>
+        <h1 data-reveal><%= post.title %></h1>
+        <p class="post-meta" data-reveal>
+          <span><%= post.author %></span> · <time datetime="<%= post.date %>"><%= post.dateDisplay %></time> · <%= post.readTime %>
+        </p>
+      </div>
+    </header>
+
+    <article class="section section--tight">
+      <div class="container narrow">
+        <div class="prose">
+          <%- post.body %>
+        </div>
+        <aside class="author-note" data-reveal>
+          <strong>About the author</strong>
+          <p><%= post.authorNote %></p>
+        </aside>
+      </div>
+    </article>
+
+    <%- include('partials/cta') %>
+  </main>
+
+  <%- include('partials/footer') %>
+</body>
+</html>

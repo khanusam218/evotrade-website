@@ -77,6 +77,41 @@
     tickEl.textContent = 'Rs. ' + parseInt(tickEl.dataset.tickTarget, 10).toLocaleString('en-PK');
   }
 
+  /* Waitlist form (stubbed backend — logs signup server-side) */
+  const wlForm = document.querySelector('#waitlist-form');
+  const wlStatus = document.querySelector('#waitlist-status');
+  if (wlForm) {
+    wlForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const submitBtn = wlForm.querySelector('button[type="submit"]');
+      submitBtn.disabled = true;
+      wlStatus.textContent = 'Joining…';
+      wlStatus.removeAttribute('data-state');
+      try {
+        const payload = Object.fromEntries(new FormData(wlForm).entries());
+        const res = await fetch('/waitlist', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        const data = await res.json();
+        if (data.ok) {
+          wlStatus.textContent = "You're on the list — we'll email you at launch.";
+          wlStatus.dataset.state = 'ok';
+          wlForm.reset();
+        } else {
+          wlStatus.textContent = data.error || 'Something went wrong. Please try again.';
+          wlStatus.dataset.state = 'error';
+        }
+      } catch (err) {
+        wlStatus.textContent = 'Network error — please try again.';
+        wlStatus.dataset.state = 'error';
+      } finally {
+        submitBtn.disabled = false;
+      }
+    });
+  }
+
   /* Contact form (stubbed backend — logs submission server-side) */
   const form = document.querySelector('#contact-form');
   const status = document.querySelector('#form-status');

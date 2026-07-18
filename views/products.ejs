@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <%- include('partials/head') %>
+</head>
+<body>
+  <%- include('partials/nav') %>
+
+  <main id="main">
+    <header class="page-hero">
+      <div class="container">
+        <%- include('partials/breadcrumbs') %>
+        <p class="eyebrow" data-reveal>Products</p>
+        <h1 data-reveal>Nine products. One promise: software that matches how you trade.</h1>
+        <p class="page-hero__sub" data-reveal>
+          Every Evotrade product is Rs. 1,000/month standalone — and free for
+          <%= site.parentCompany.name %> clients. Two are live in production today; the rest are
+          rolling out on their own subdomains.
+        </p>
+      </div>
+    </header>
+
+    <section class="section section--tight">
+      <div class="container">
+        <div class="product-grid product-grid--index">
+          <% products.forEach(function (p) { %>
+          <a class="product-card" href="/products/<%= p.slug %>" style="--accent: var(--acc-<%= p.accent %>); --accent-text: var(--acc-<%= p.accent %>-text);" data-reveal>
+            <div class="product-card__top">
+              <span class="product-card__tag"><i></i><%= p.category %></span>
+              <% if (p.status === 'live') { %>
+                <span class="badge badge--live">Live</span>
+              <% } else { %>
+                <span class="badge badge--soon">Coming soon</span>
+              <% } %>
+            </div>
+            <h2 class="product-card__name"><%= p.name %></h2>
+            <p><%= p.position %></p>
+            <span class="product-card__link">View product →</span>
+          </a>
+          <% }) %>
+        </div>
+      </div>
+    </section>
+
+    <%- include('partials/cta') %>
+  </main>
+
+  <%- include('partials/footer') %>
+</body>
+</html>

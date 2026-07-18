@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <%- include('partials/head') %>
+</head>
+<body>
+  <%- include('partials/nav') %>
+
+  <main id="main">
+    <!-- ============ HERO ============ -->
+    <header class="hero">
+      <div class="container hero__grid">
+        <div class="hero__copy">
+          <p class="eyebrow hero__eyebrow">Business software for Pakistan</p>
+          <h1 class="hero__title">
+            We build the software your <span class="underline">business runs</span> on.
+          </h1>
+          <p class="hero__sub">
+            POS, accounting, ERP, payroll, and FBR digital invoicing — built by the software
+            division of <a href="<%= site.parentCompany.url %>" rel="noopener">TaxAccountant.pk</a>
+            for real Pakistani counters, warehouses, and back offices.
+          </p>
+          <div class="hero__actions">
+            <a href="/products" class="btn btn-primary">Explore products</a>
+            <a href="/contact" class="btn btn-ghost">Book a free demo</a>
+          </div>
+          <div class="hero__meta">
+            <div class="hero__meta-item">
+              <strong>Rs. 1,000</strong>
+              <span>per month, per product — 20% off yearly</span>
+            </div>
+            <div class="hero__meta-item">
+              <strong>Free</strong>
+              <span>for <%= site.parentCompany.name %> clients</span>
+            </div>
+            <div class="hero__meta-item">
+              <strong>9</strong>
+              <span>products, 2 live today</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero__frame-wrap">
+          <div class="hero__frame">
+            <div class="hero__frame-chrome"><i></i><i></i><i></i></div>
+            <div class="hero__frame-body">
+              <img src="/assets/screenshots/accounting/dashboard-1.jpeg" alt="Evotrade Accounting Software dashboard showing receivables, payables, and recent sales invoices" width="1332" height="848" fetchpriority="high">
+              <span class="hero__frame-badge">Live</span>
+              <div class="hero__frame-tick">
+                Receivables today <strong data-tick-target="2885000">Rs. 0</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- ============ PRODUCT GRID ============ -->
+    <section class="section" id="products">
+      <div class="container">
+        <div class="section-head" data-reveal>
+          <h2>One suite, nine products, every counter covered.</h2>
+          <p>DistriBooks and ElectricStore are live in production today. The rest of the suite is rolling out on its own subdomains — join a waitlist and be first through the door.</p>
+        </div>
+        <div class="product-grid">
+          <% products.forEach(function (p) { %>
+          <a class="product-card" href="/products/<%= p.slug %>" style="--accent: var(--acc-<%= p.accent %>); --accent-text: var(--acc-<%= p.accent %>-text);" data-reveal>
+            <div class="product-card__top">
+              <span class="product-card__tag"><i></i><%= p.category %></span>
+              <% if (p.status === 'live') { %>
+                <span class="badge badge--live">Live</span>
+              <% } else { %>
+                <span class="badge badge--soon">Coming soon</span>
+              <% } %>
+            </div>
+            <h3><%= p.name %></h3>
+            <p><%= p.position %></p>
+            <span class="product-card__link">View product →</span>
+          </a>
+          <% }) %>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ LIVE PRODUCT SPOTLIGHTS ============ -->
+    <section class="section section--dark">
+      <div class="container">
+        <div class="section-head" data-reveal>
+          <h2 style="color: var(--paper);">In production, right now.</h2>
+          <p style="color: var(--stone-light);">These screenshots are pulled from live systems — not mockups.</p>
+        </div>
+        <div class="spotlight-grid">
+          <a href="/products/distribook" class="spotlight" data-reveal>
+            <div class="frame">
+              <div class="frame__chrome"><i></i><i></i><i></i></div>
+              <div class="frame__body">
+                <img src="/assets/screenshots/distribook/dashboard.png" alt="DistriBooks business dashboard with revenue and top companies" loading="lazy" width="1725" height="2000">
+              </div>
+            </div>
+            <h3>DistriBooks <span>— distribution &amp; wholesale ERP</span></h3>
+          </a>
+          <a href="/products/electricstore" class="spotlight" data-reveal>
+            <div class="frame">
+              <div class="frame__chrome"><i></i><i></i><i></i></div>
+              <div class="frame__body">
+                <img src="/assets/screenshots/electric-shop/dashboard.png" alt="ElectricStore dark-mode dashboard with revenue and stock value" loading="lazy" width="1280" height="1268">
+              </div>
+            </div>
+            <h3>ElectricStore <span>— electrical shop POS &amp; ERP</span></h3>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ WHY EVOTRADE ============ -->
+    <section class="section">
+      <div class="container">
+        <div class="section-head" data-reveal>
+          <h2>Software from a tax practice, not a template shop.</h2>
+          <p>Evotrade is the software division of <%= site.parentCompany.name %> — which changes what we build and why.</p>
+        </div>
+        <div class="capabilities__grid">
+          <div class="capability" data-reveal>
+            <h3>Compliance is native</h3>
+            <p>FBR e-invoicing, PKR tax rules, and salary slabs are built by people who file taxes for a living — updated when the law changes, not when someone remembers.</p>
+          </div>
+          <div class="capability" data-reveal>
+            <h3>Priced to keep</h3>
+            <p>Rs. 1,000/month per product where competitors charge Rs. 2,500–10,000. Software is how our parent firm serves clients better — not our only revenue line.</p>
+          </div>
+          <div class="capability" data-reveal>
+            <h3>Built for the counter</h3>
+            <p>Coils and gauges, IMEIs, gate passes, credit ledgers — our products model how Pakistani businesses actually trade, not an imported idea of retail.</p>
+          </div>
+          <div class="capability" data-reveal>
+            <h3>Support that answers</h3>
+            <p>WhatsApp and phone support from <%= site.offices[0].city %> and <%= site.offices[1].city %>, Mon–Sat — with same-day response on most queries.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ PROCESS ============ -->
+    <section class="section section--dark" id="process">
+      <div class="container">
+        <div class="section-head" data-reveal>
+          <h2 style="color: var(--paper);">How a build actually goes.</h2>
+          <p style="color: var(--stone-light);">The same four stages sit behind every product on this site.</p>
+        </div>
+        <div class="process__list">
+          <div class="process__step" data-reveal>
+            <span class="process__num">01</span>
+            <h3>Discover</h3>
+            <p>We sit with your counter staff, your bookkeeper, your warehouse team — not just management — to map how the business actually runs.</p>
+          </div>
+          <div class="process__step" data-reveal>
+            <span class="process__num">02</span>
+            <h3>Design</h3>
+            <p>Screens and data models get shaped around real workflows: invoice approvals, gate passes, aging reports — whatever your business runs on.</p>
+          </div>
+          <div class="process__step" data-reveal>
+            <span class="process__num">03</span>
+            <h3>Build</h3>
+            <p>We build in working increments you can see and use early, not a single reveal at the end of a long cycle.</p>
+          </div>
+          <div class="process__step" data-reveal>
+            <span class="process__num">04</span>
+            <h3>Deploy</h3>
+            <p>Rollout, staff training, and a support line that stays open after launch — software has to survive contact with a real business day.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ BLOG TEASER ============ -->
+    <section class="section">
+      <div class="container">
+        <div class="section-head" data-reveal>
+          <h2>From the blog.</h2>
+          <p>Compliance deadlines, buying guides, and hard-won lessons from real deployments.</p>
+        </div>
+        <div class="blog-grid">
+          <a class="blog-card" href="/blog/fbr-digital-invoicing-guide-pakistan" data-reveal>
+            <span class="blog-card__tag">FBR · Compliance</span>
+            <h3>FBR Digital Invoicing in Pakistan: what every sales-tax-registered business must do in 2026</h3>
+            <span class="blog-card__meta">7 min read</span>
+          </a>
+          <a class="blog-card" href="/blog/how-to-choose-pos-accounting-software-pakistan" data-reveal>
+            <span class="blog-card__tag">POS · Buying Guide</span>
+            <h3>How to choose POS and accounting software for your business in Pakistan</h3>
+            <span class="blog-card__meta">8 min read</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <%- include('partials/cta') %>
+  </main>
+
+  <%- include('partials/footer') %>
+</body>
+</html>

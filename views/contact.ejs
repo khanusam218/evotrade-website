@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <%- include('partials/head') %>
+</head>
+<body>
+  <%- include('partials/nav') %>
+
+  <main id="main">
+    <header class="page-hero">
+      <div class="container">
+        <%- include('partials/breadcrumbs') %>
+        <p class="eyebrow" data-reveal>Contact us</p>
+        <h1 data-reveal>Tell us what your business runs on.</h1>
+        <p class="page-hero__sub" data-reveal>
+          Book a free demo, ask about a product, or bring us a workflow no software has survived
+          yet. Same-day response on most queries, Mon–Sat.
+        </p>
+      </div>
+    </header>
+
+    <section class="section section--dark">
+      <div class="container contact__grid">
+        <form id="contact-form" novalidate data-reveal>
+          <div class="field">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" placeholder="Your full name" required autocomplete="name">
+          </div>
+          <div class="field">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="you@company.com" required autocomplete="email">
+          </div>
+          <div class="field">
+            <label for="company">Company</label>
+            <input type="text" id="company" name="company" placeholder="Business name" autocomplete="organization">
+          </div>
+          <div class="field">
+            <label for="message">What do you need?</label>
+            <textarea id="message" name="message" placeholder="Tell us about your business — which product, how many branches, what's breaking today." required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Send message</button>
+          <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+        </form>
+
+        <div class="contact__info" data-reveal>
+          <div class="contact__info-item">
+            <strong>WhatsApp / Phone</strong>
+            <a href="<%= site.whatsapp %>" rel="noopener"><%= site.phone %></a>
+          </div>
+          <div class="contact__info-item">
+            <strong>Email</strong>
+            <a href="mailto:<%= site.email %>"><%= site.email %></a>
+          </div>
+          <% site.offices.forEach(function (o) { %>
+          <div class="contact__info-item">
+            <strong><%= o.city %> — <%= o.label %></strong>
+            <p class="contact__addr"><%= o.address %></p>
+            <p class="contact__addr"><a href="tel:<%= o.phoneHref %>"><%= o.phone %></a> · <%= o.hours %></p>
+          </div>
+          <% }) %>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--tight">
+      <div class="container">
+        <div class="section-head" data-reveal>
+          <h2 class="h-md">Find us</h2>
+        </div>
+        <div class="map-grid">
+          <% site.offices.forEach(function (o) { %>
+          <div class="map-card" data-reveal>
+            <div class="map-card__frame">
+              <iframe
+                src="<%= o.mapEmbedUrl %>"
+                title="Map to Evotrade / TaxAccountant.pk — <%= o.city %> office"
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+                allowfullscreen>
+              </iframe>
+            </div>
+            <div class="map-card__caption">
+              <strong><%= o.city %> — <%= o.label %></strong>
+              <p><%= o.address %></p>
+              <a href="https://www.google.com/maps/search/?api=1&query=<%= encodeURIComponent(o.address) %>" rel="noopener" target="_blank">Get directions →</a>
+            </div>
+          </div>
+          <% }) %>
+        </div>
+      </div>
+    </section>
+
+    <%- include('partials/footer') %>
+  </main>
+</body>
+</html>

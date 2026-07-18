@@ -1,102 +1,98 @@
-# Evotrade — Software House Portfolio Site
+# Evotrade — evotrade.io
 
-An awards-style portfolio site for Evotrade, showcasing four flagship products:
-Accounting Software, ElectricStore (POS & ERP), DistriBooks (distribution ERP), and Evotrade POS.
+Multipage marketing site for Evotrade, the software division of TaxAccountant.pk.
+Nine products (2 live: DistriBooks, ElectricStore; 7 launching on subdomains), plus
+pricing, about, contact, blog, FAQs, and legal pages — SEO-optimized with per-page
+meta, JSON-LD schema, sitemap, and robots.txt.
 
 ## Stack & why
 
-- **Node.js + Express**, server-rendered with **EJS**.
-- Chosen over a Node API + static frontend because this is a single-page, content-driven
-  marketing site with no client-side app state — server rendering keeps the project simple
-  (one template, one route file) while still giving full control over markup for the
-  animation/reveal hooks (`data-reveal` attributes, semantic sections) that the animation
-  layer depends on. A static frontend would have meant either hand-duplicating the templating
-  logic or pulling in a build step for no real benefit at this scale.
-- **Hand-written CSS** with custom properties as the token system (`public/css/style.css`) —
-  no framework. Tailwind's default utility classes fight against a custom, awards-style
-  aesthetic more than they help at this project's size.
-- **Vanilla JS** (`public/js/main.js`) for scroll reveals (IntersectionObserver), the hero's
-  parallax tilt, the ticking KPI number, and the contact form — no animation library needed
-  for this scope. Everything respects `prefers-reduced-motion`.
+- **Node.js + Express**, server-rendered with **EJS** — content-driven marketing site,
+  no client-side app state; server rendering gives full markup control for SEO
+  (unique titles/meta/canonical/JSON-LD per page) with zero build step.
+- **Hand-written CSS** with custom properties as the token system (`public/css/style.css`).
+- **Vanilla JS** (`public/js/main.js`, loaded with `defer`) — IntersectionObserver reveals,
+  hero parallax, ticking KPI, contact + waitlist forms. Respects `prefers-reduced-motion`.
 
 ## Running it
 
 ```bash
 npm install
-npm start        # production
-npm run dev       # nodemon, auto-restart on changes
+npm start        # production (PORT env respected, default 3000)
+npm run dev      # nodemon, auto-restart on changes
 ```
-
-Visit `http://localhost:3000`.
 
 ## Project structure
 
 ```
-server.js              Express app entry point
-routes/index.js         Routes: GET / , POST /contact (stubbed)
-views/                  EJS templates
-  index.ejs              The whole one-page site
-  404.ejs
-  partials/head.ejs       <head>, fonts, meta
+server.js         Express entry point (PORT env respected)
+data/
+  products.js     All 9 products: copy, keywords, meta, screenshots, FAQs, status
+  posts.js        Blog posts (HTML body rendered inside .prose)
+  faqs.js         Site-wide FAQs (/faqs page + FAQPage schema)
+  site.js         Contact identity, offices, social links, pricing constants
+routes/index.js   All routes + sitemap.xml + robots.txt + form stubs
+views/            EJS templates (home, products, product, pricing, about,
+                  contact, blog, post, faqs, legal, 404)
+  partials/       head (SEO meta + JSON-LD), nav, footer, breadcrumbs, cta
 public/
-  css/style.css          Design tokens + all styles
-  js/main.js             Scroll reveals, hero tilt, KPI tick, contact form submit
-assets/screenshots/      Real product screenshots, one folder per product
+  css/style.css   Design tokens + all styles
+  js/main.js      Reveals, hero tilt, KPI tick, nav toggle, form submits
+assets/           Product screenshots, served at /assets
 ```
 
-## Adding / swapping product screenshots
+## Adding or editing a product
 
-Screenshots live in `assets/screenshots/<product>/` and are referenced directly by filename
-in `views/index.ejs` (search for `/assets/screenshots/`). To swap an image:
+Everything lives in `data/products.js`. Add/edit an object there — slug, name,
+status (`live` | `coming-soon`), `appUrl` (subdomain), copy fields, screenshots,
+per-product FAQs. The product page, home/products-index cards, footer links,
+sitemap, and JSON-LD schema all update automatically from that one file.
 
-1. Drop the new file into the matching folder (`accounting/`, `electric-shop/`, `distribook/`,
-   or `pos/`).
-2. Update the `src` in `views/index.ejs` to the new filename (or keep the same filename to
-   avoid touching the template at all).
-3. Each screenshot sits inside a `.frame` (browser-chrome styled) or `.cluster`/`.stack` layout
-   block — the CSS crops to a fixed aspect ratio via `object-fit: cover`, so images don't need
-   to be pre-cropped.
+- **Going live:** change `status` to `'live'` — the waitlist form is replaced by a
+  login CTA pointing at `appUrl` automatically.
+- **Screenshots:** drop files in `assets/screenshots/<product>/` and list them in the
+  product's `screenshots` array with descriptive `alt` text (used for SEO + accessibility).
 
-**POS product**: currently rendered with a `.placeholder-frame` block (dashed border, "Screenshot
-coming soon" label) instead of real images. When real POS screenshots are available:
+## SEO
 
-1. Add them to `assets/screenshots/pos/`.
-2. In `views/index.ejs`, find the `<!-- POS (placeholder) -->` article and replace the
-   `<div class="placeholder-frame">...</div>` block with a `.frame` or `.cluster` block matching
-   the pattern used in the other three product sections.
+- Per-page `<title>`, meta description, canonical, Open Graph/Twitter tags:
+  `views/partials/head.ejs`, fed from route data in `routes/index.js`.
+- JSON-LD schema: Organization + WebSite (home), SoftwareApplication + FAQPage +
+  BreadcrumbList (product pages), Article (blog posts), FAQPage (/faqs),
+  LocalBusiness ×2 (contact — both offices).
+- `sitemap.xml` and `robots.txt` are generated routes — new products/posts appear
+  automatically.
+- Target keywords are recorded per product in the `keywords` array (reference for
+  future content edits; titles/descriptions already use them).
+
+## Forms (stubbed — wire up before launch)
+
+`POST /contact` and `POST /waitlist` validate input and **log to the server console
+only**. No email service is configured. To enable delivery, replace the
+`console.log` blocks in `routes/index.js` with Nodemailer/SendGrid/Postmark calls —
+payloads are already validated.
 
 ## Customizing the color tokens
 
-All colors are CSS custom properties defined at the top of `public/css/style.css`:
+All colors are CSS custom properties at the top of `public/css/style.css`:
 
 ```css
 :root {
-  --ink: #0B0A08;        /* near-black */
-  --paper: #F7F3EC;      /* off-white */
-  --signal: #FF5A1F;     /* primary orange accent */
-  --signal-deep: #C43E0A;/* orange hover/pressed state */
-  --charcoal: #1C1815;   /* secondary dark surface */
-  --stone: #8A8177;      /* muted text / borders */
+  --ink: #0B0A08;         /* near-black */
+  --paper: #F7F3EC;       /* off-white */
+  --signal: #FF5A1F;      /* primary orange accent */
+  --signal-deep: #C43E0A; /* hover/pressed + AA text-on-light */
+  --charcoal: #1C1815;    /* secondary dark surface */
+  --stone: #8A8177;       /* muted text / borders */
 
-  --acc-accounting: #FF5A1F;  /* per-product accent colors */
-  --acc-electric: #FFB020;
-  --acc-distribook: #6C5CE7;
-  --acc-pos: #8A8177;
+  --acc-accounting / --acc-electric / --acc-distribook / --acc-pos / --acc-signal
+                          /* per-product accents (decorative) */
+  --acc-*-text            /* darkened AA-contrast variants for text on paper */
 }
 ```
 
-Change any value and it cascades through the whole site — buttons, underlines, product tags,
-focus states, etc. all reference these tokens rather than hardcoded hex values.
-
 ## Fonts
 
-[Fraunces](https://fonts.google.com/specimen/Fraunces) (display/headlines) and
-[Inter](https://fonts.google.com/specimen/Inter) (body/UI), loaded via Google Fonts in
-`views/partials/head.ejs`.
-
-## Contact form
-
-The form posts to `POST /contact` (see `routes/index.js`). **No email service is configured** —
-submissions are validated and logged to the server console only. To wire up real delivery,
-swap the `console.log` block in `routes/index.js` for a call to Nodemailer, SendGrid, Postmark,
-or similar, using the already-validated `{ name, email, company, message }` payload.
+[Fraunces](https://fonts.google.com/specimen/Fraunces) (display) and
+[Inter](https://fonts.google.com/specimen/Inter) (body), loaded in
+`views/partials/head.ejs` with `display=swap`.

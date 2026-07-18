@@ -15,7 +15,18 @@ app.use('/assets', express.static(path.join(__dirname, 'assets')));
 app.use('/', require('./routes/index'));
 
 app.use((req, res) => {
-  res.status(404).render('404', { title: 'Page not found — Evotrade' });
+  const site = require('./data/site');
+  const { products } = require('./data/products');
+  res.status(404).render('404', {
+    title: 'Page not found — Evotrade',
+    metaDescription: 'The page you were looking for does not exist.',
+    canonical: null,
+    ogImage: `${site.SITE_URL}/assets/screenshots/accounting/dashboard-1.jpeg`,
+    schema: [],
+    breadcrumbs: null,
+    site,
+    products,
+  });
 });
 
 app.listen(PORT, () => {
