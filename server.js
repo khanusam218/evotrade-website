@@ -6,6 +6,12 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Hostinger (and most hosts) terminate HTTPS at a reverse proxy and forward
+// plain HTTP to this app internally. Without trusting that proxy, Express sees
+// every request as insecure, which makes secure cookies (below) silently fail
+// to be set at all -- even though the real browser connection is HTTPS.
+app.set('trust proxy', 1);
+
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
