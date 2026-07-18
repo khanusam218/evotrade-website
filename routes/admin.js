@@ -1,9 +1,23 @@
 const express = require('express');
+const crypto = require('crypto');
 const router = express.Router();
 
 const db = require('../lib/db');
 const site = require('../data/site');
 const { checkPassword, requireAdmin } = require('../lib/adminAuth');
+
+// TEMPORARY DIAGNOSTIC — logs only a hash prefix + length, never the real value.
+// Remove once the admin login mismatch is resolved.
+function debugEnvVar() {
+  const val = process.env.ADMIN_PASSWORD;
+  if (!val) {
+    console.log('[admin-debug] ADMIN_PASSWORD is undefined/empty in process.env');
+    return;
+  }
+  const trimmed = val.trim();
+  console.log('[admin-debug] ADMIN_PASSWORD present. raw length:', val.length, 'trimmed length:', trimmed.length,
+    'hash prefix:', crypto.createHash('sha256').update(trimmed).digest('hex').slice(0, 10));
+}
 
 router.get('/login', (req, res) => {
   if (req.session && req.session.isAdmin) return res.redirect('/admin');
@@ -12,6 +26,7 @@ router.get('/login', (req, res) => {
 
 router.post('/login', (req, res) => {
   const { password } = req.body;
+  debugEnvVar();
   if (!process.env.ADMIN_PASSWORD) {
     return res.render('admin/login', { error: 'ADMIN_PASSWORD is not set on the server yet — see README.', site });
   }
