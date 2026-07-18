@@ -68,32 +68,39 @@ sitemap, and JSON-LD schema all update automatically from that one file.
 ## Email setup (contact & waitlist forms)
 
 `POST /contact` and `POST /waitlist` always log submissions to the server console,
-and will also send an email via Gmail/Google Workspace SMTP (`lib/mailer.js`) once
-configured. Without configuration, they silently fall back to console-only logging
-— forms still work, you just won't get an email.
+and will also send an email via SMTP (`lib/mailer.js`) once configured. Without
+configuration, they silently fall back to console-only logging — forms still work,
+you just won't get an email.
 
-**1. Generate a Google App Password** (not your regular account password):
-   - Go to [myaccount.google.com/apppasswords](https://myaccount.google.com/apppasswords)
-     (requires 2-Step Verification enabled on the account).
-   - Create an app password for "Mail", copy the 16-character code.
+This is set up for **Hostinger email hosting** (`support@evotrade.io` on Hostinger),
+using generic SMTP rather than a Gmail-specific integration.
+
+**1. Find your mailbox's SMTP settings** in hPanel:
+   - Go to hPanel → **Emails** → select `support@evotrade.io` → **Connect Devices**
+     (or **Configure Email Client**) to see the exact SMTP host/port for your plan.
+   - Usually: host `smtp.hostinger.com`, port `465` (SSL). Some plans use port `587`
+     (STARTTLS) instead — hPanel will tell you which.
+   - The password is the mailbox's real password (set/reset it in hPanel → Emails).
 
 **2. Set environment variables** — copy `.env.example` to `.env` and fill in:
    ```
    EMAIL_USER=support@evotrade.io
-   EMAIL_APP_PASSWORD=<the 16-character app password>
+   EMAIL_PASSWORD=<the mailbox password>
+   EMAIL_HOST=smtp.hostinger.com
+   EMAIL_PORT=465
    EMAIL_TO=support@evotrade.io
    ```
    `.env` is gitignored — never commit real credentials. Locally, `server.js` loads
-   it automatically via `dotenv`. On Hostinger, set the same three variables in the
+   it automatically via `dotenv`. On Hostinger, set the same variables in the
    hosting panel's **Environment Variables** section (Node.js app settings) instead
    of using a `.env` file.
 
-**3. Restart the app** after setting the variables. Test by submitting the contact
-form — check the inbox at `EMAIL_TO`.
+**3. Restart/redeploy the app** after setting the variables. Test by submitting the
+contact form — check the inbox at `EMAIL_TO`.
 
-To switch providers (SendGrid, Postmark, etc.) instead of Gmail, edit
-`lib/mailer.js` — `sendMail()` is the only function the routes call, so swapping
-the transport underneath doesn't require touching `routes/index.js`.
+To switch providers (SendGrid, Postmark, Gmail, etc.), edit `lib/mailer.js` —
+`sendMail()` is the only function the routes call, so swapping the transport
+underneath doesn't require touching `routes/index.js`.
 
 ## Customizing the color tokens
 
