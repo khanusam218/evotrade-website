@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Subscriptions — Admin | Evotrade</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body style="background: var(--paper);">
+  <div class="admin-shell">
+    <header class="admin-header">
+      <div class="footer__logo">evo<span>trade</span></div>
+      <h1>Subscriptions</h1>
+      <form method="POST" action="/admin/logout"><button type="submit" class="btn btn-ghost">Log out</button></form>
+    </header>
+
+    <div class="admin-stats">
+      <a href="/admin" class="admin-stat <%= !activeFilter ? 'is-active' : '' %>">
+        <strong><%= counts.pending + counts.active + counts.cancelled %></strong><span>All</span>
+      </a>
+      <a href="/admin?status=pending" class="admin-stat <%= activeFilter === 'pending' ? 'is-active' : '' %>">
+        <strong><%= counts.pending %></strong><span>Pending</span>
+      </a>
+      <a href="/admin?status=active" class="admin-stat <%= activeFilter === 'active' ? 'is-active' : '' %>">
+        <strong><%= counts.active %></strong><span>Active</span>
+      </a>
+      <a href="/admin?status=cancelled" class="admin-stat <%= activeFilter === 'cancelled' ? 'is-active' : '' %>">
+        <strong><%= counts.cancelled %></strong><span>Cancelled</span>
+      </a>
+    </div>
+
+    <% if (!subscriptions.length) { %>
+      <p class="admin-empty">No subscription requests<%= activeFilter ? ' with status "' + activeFilter + '"' : '' %> yet.</p>
+    <% } else { %>
+    <div class="table-scroll">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Customer</th>
+            <th>Contact</th>
+            <th>Product</th>
+            <th>Plan</th>
+            <th>Status</th>
+            <th>Notes</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% subscriptions.forEach(function (s) { %>
+          <tr>
+            <td><%= s.created_at %></td>
+            <td><strong><%= s.name %></strong><% if (s.company) { %><br><span class="admin-muted"><%= s.company %></span><% } %></td>
+            <td><a href="mailto:<%= s.email %>"><%= s.email %></a><% if (s.phone) { %><br><span class="admin-muted"><%= s.phone %></span><% } %></td>
+            <td><%= s.product_name %></td>
+            <td>
+              <% if (s.plan === 'taxaccountant-client') { %>Free (TaxAccountant.pk client)
+              <% } else if (s.plan === 'yearly') { %>Yearly
+              <% } else { %>Monthly<% } %>
+            </td>
+            <td><span class="admin-badge admin-badge--<%= s.status %>"><%= s.status %></span></td>
+            <td class="admin-muted"><%= s.notes || '—' %></td>
+            <td>
+              <div class="admin-actions">
+                <form method="POST" action="/admin/subscriptions/<%= s.id %>/status">
+                  <input type="hidden" name="status" value="active">
+                  <button type="submit" class="admin-btn admin-btn--active" <%= s.status === 'active' ? 'disabled' : '' %>>Mark active</button>
+                </form>
+                <form method="POST" action="/admin/subscriptions/<%= s.id %>/status">
+                  <input type="hidden" name="status" value="cancelled">
+                  <button type="submit" class="admin-btn admin-btn--cancel" <%= s.status === 'cancelled' ? 'disabled' : '' %>>Cancel</button>
+                </form>
+                <% if (s.status !== 'pending') { %>
+                <form method="POST" action="/admin/subscriptions/<%= s.id %>/status">
+                  <input type="hidden" name="status" value="pending">
+                  <button type="submit" class="admin-btn">Reset</button>
+                </form>
+                <% } %>
+              </div>
+            </td>
+          </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+    <% } %>
+  </div>
+</body>
+</html>

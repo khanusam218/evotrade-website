@@ -31,14 +31,22 @@ data/
   posts.js        Blog posts (HTML body rendered inside .prose)
   faqs.js         Site-wide FAQs (/faqs page + FAQPage schema)
   site.js         Contact identity, offices, social links, pricing constants
-routes/index.js   All routes + sitemap.xml + robots.txt + form stubs
+routes/
+  index.js        Public routes + sitemap.xml + robots.txt + form handlers
+  admin.js         /admin login, dashboard, subscription status updates
+lib/
+  mailer.js        SMTP email sending (contact/waitlist/subscribe notifications)
+  db.js            SQLite subscriptions store (node:sqlite, no native deps)
+  adminAuth.js     Admin password check + requireAdmin session middleware
 views/            EJS templates (home, products, product, pricing, about,
                   contact, blog, post, faqs, legal, 404)
   partials/       head (SEO meta + JSON-LD), nav, footer, breadcrumbs, cta
+  admin/          login, dashboard (standalone layout, noindex)
 public/
   css/style.css   Design tokens + all styles
   js/main.js      Reveals, hero tilt, KPI tick, nav toggle, form submits
 assets/           Product screenshots, served at /assets
+data-store/       SQLite database file (gitignored — created automatically)
 ```
 
 ## Adding or editing a product
@@ -48,8 +56,9 @@ status (`live` | `coming-soon`), `appUrl` (subdomain), copy fields, screenshots,
 per-product FAQs. The product page, home/products-index cards, footer links,
 sitemap, and JSON-LD schema all update automatically from that one file.
 
-- **Going live:** change `status` to `'live'` — the waitlist form is replaced by a
-  login CTA pointing at `appUrl` automatically.
+- **Going live:** change `status` to `'live'` — the waitlist form is replaced by the
+  Subscribe form (plan selection + billing request), with a secondary "Already a
+  customer? Log in" link to `appUrl`.
 - **Screenshots:** drop files in `assets/screenshots/<product>/` and list them in the
   product's `screenshots` array with descriptive `alt` text (used for SEO + accessibility).
 
@@ -101,6 +110,50 @@ contact form — check the inbox at `EMAIL_TO`.
 To switch providers (SendGrid, Postmark, Gmail, etc.), edit `lib/mailer.js` —
 `sendMail()` is the only function the routes call, so swapping the transport
 underneath doesn't require touching `routes/index.js`.
+
+## Billing & subscriptions (manual, admin-tracked)
+
+Live products show a **Subscribe** form (name, email, phone, company, plan) instead
+of a direct login link. This is intentionally a **manual billing flow**, not an
+automated payment gateway:
+
+1. Customer submits the Subscribe form on a live product's page → creates a
+   `pending` row in the SQLite database and emails you a notification (via the
+   same mailer as contact/waitlist).
+2. You send them a payment request (bank transfer / JazzCash / Easypaisa) outside
+   the website, or confirm they're already a TaxAccountant.pk client (free).
+3. Once paid, go to `/admin`, find their request, and click **Mark active**.
+4. **You still create their login in DistriBooks/ElectricStore yourself** — the
+   website tracks who's paid, it does not provision accounts in those separate
+   applications. If those apps ever expose an API for account creation, this is
+   the place to wire that up (`routes/admin.js`, on status change to `active`).
+
+### Admin dashboard setup
+
+1. Set an `ADMIN_PASSWORD` environment variable (a strong, unique password — this
+   is a single shared password, not per-user accounts). Also set `SESSION_SECRET`
+   to a long random string (used to sign the login session cookie).
+   ```
+   ADMIN_PASSWORD=<a strong password>
+   SESSION_SECRET=<a long random string>
+   ```
+   Add both locally in `.env` and in Hostinger's Environment Variables panel,
+   same as the email variables.
+2. Visit `/admin/login` and log in with that password.
+3. The dashboard (`/admin`) lists every subscribe request with filters for
+   Pending / Active / Cancelled, and buttons to change status. `/admin` is
+   excluded from `robots.txt` and marked `noindex` so it won't appear in search.
+
+### The database
+
+Subscription requests are stored in `data-store/evotrade.sqlite`, created
+automatically on first run using Node's built-in `node:sqlite` module (no native
+dependency, no separate database server to manage). This directory is gitignored
+— **back it up separately** (it's not in version control, and Hostinger may not
+persist non-git files across every redeploy — verify this with a test entry after
+a redeploy before relying on it for real customer data). If you outgrow SQLite,
+the query functions in `lib/db.js` are the only place that would need to change
+to move to Postgres or another database.
 
 ## Customizing the color tokens
 

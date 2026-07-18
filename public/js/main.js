@@ -112,6 +112,41 @@
     });
   }
 
+  /* Subscribe form (live products — creates a pending subscription request) */
+  const subForm = document.querySelector('#subscribe-form');
+  const subStatus = document.querySelector('#subscribe-status');
+  if (subForm) {
+    subForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const submitBtn = subForm.querySelector('button[type="submit"]');
+      submitBtn.disabled = true;
+      subStatus.textContent = 'Sending…';
+      subStatus.removeAttribute('data-state');
+      try {
+        const payload = Object.fromEntries(new FormData(subForm).entries());
+        const res = await fetch('/subscribe', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        const data = await res.json();
+        if (data.ok) {
+          subStatus.textContent = "Request received — we'll send a payment link or activate your free access within one business day.";
+          subStatus.dataset.state = 'ok';
+          subForm.reset();
+        } else {
+          subStatus.textContent = data.error || 'Something went wrong. Please try again.';
+          subStatus.dataset.state = 'error';
+        }
+      } catch (err) {
+        subStatus.textContent = 'Network error — please try again.';
+        subStatus.dataset.state = 'error';
+      } finally {
+        submitBtn.disabled = false;
+      }
+    });
+  }
+
   /* Contact form (stubbed backend — logs submission server-side) */
   const form = document.querySelector('#contact-form');
   const status = document.querySelector('#form-status');

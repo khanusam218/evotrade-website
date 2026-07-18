@@ -298,6 +298,7 @@ router.get('/privacy-policy', (req, res) => {
 
 /* ---------- Forms (logged server-side + emailed via lib/mailer.js) ---------- */
 const { sendMail } = require('../lib/mailer');
+const db = require('../lib/db');
 
 const escapeHtml = (s) =>
   String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -357,6 +358,48 @@ router.post('/waitlist', async (req, res) => {
   res.json({ ok: true });
 });
 
+router.post('/subscribe', async (req, res) => {
+  const { name, email, phone, company, productSlug, productName, plan } = req.body;
+  if (!name || !email || !productSlug || !productName) {
+    return res.status(400).json({ ok: false, error: 'Name, email, and product are required.' });
+  }
+  const product = products.find((p) => p.slug === productSlug);
+  if (!product || product.status !== 'live') {
+    return res.status(400).json({ ok: false, error: 'That product is not available to subscribe to yet.' });
+  }
+  const safePlan = ['monthly', 'yearly', 'taxaccountant-client'].includes(plan) ? plan : 'monthly';
+
+  const id = db.createSubscription({
+    name, email, phone, company,
+    productSlug, productName,
+    plan: safePlan,
+  });
+
+  console.log('--- Subscribe request ---');
+  console.log({ id, name, email, phone: phone || '—', company: company || '—', productName, plan: safePlan });
+
+  try {
+    await sendMail({
+      subject: `New subscribe request — ${productName} (${safePlan})`,
+      replyTo: email,
+      html: `
+        <h2>New subscribe request</h2>
+        <p><strong>Product:</strong> ${escapeHtml(productName)}</p>
+        <p><strong>Plan:</strong> ${escapeHtml(safePlan)}</p>
+        <p><strong>Name:</strong> ${escapeHtml(name)}</p>
+        <p><strong>Email:</strong> ${escapeHtml(email)}</p>
+        <p><strong>Phone:</strong> ${escapeHtml(phone || '—')}</p>
+        <p><strong>Company:</strong> ${escapeHtml(company || '—')}</p>
+        <p>Go to <a href="${site.SITE_URL}/admin">the admin dashboard</a> to confirm payment and activate.</p>
+      `,
+    });
+  } catch (err) {
+    console.error('[mailer] subscribe request send failed:', err.message);
+  }
+
+  res.json({ ok: true });
+});
+
 /* ---------- SEO plumbing ---------- */
 router.get('/sitemap.xml', (req, res) => {
   const staticUrls = ['/', '/products', '/pricing', '/about', '/team', '/contact', '/blog', '/faqs', '/terms-of-usage', '/privacy-policy'];
@@ -372,7 +415,7 @@ router.get('/sitemap.xml', (req, res) => {
 });
 
 router.get('/robots.txt', (req, res) => {
-  res.type('text/plain').send(`User-agent: *\nAllow: /\n\nSitemap: ${site.SITE_URL}/sitemap.xml\n`);
+  res.type('text/plain').send(`User-agent: *\nAllow: /\nDisallow: /admin\n\nSitemap: ${site.SITE_URL}/sitemap.xml\n`);
 });
 
 module.exports = router;

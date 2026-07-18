@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin login | Evotrade</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body style="background: var(--ink);">
+  <main class="admin-login">
+    <div class="admin-login__box">
+      <div class="footer__logo" style="margin-bottom: 1.6rem;">evo<span>trade</span></div>
+      <h1>Admin</h1>
+      <% if (error) { %>
+        <p class="admin-login__error"><%= error %></p>
+      <% } %>
+      <form method="POST" action="/admin/login">
+        <div class="field">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" required autofocus autocomplete="current-password">
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">Log in</button>
+      </form>
+    </div>
+  </main>
+</body>
+</html>
