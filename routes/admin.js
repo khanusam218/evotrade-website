@@ -1,16 +1,35 @@
 const express = require('express');
+const rateLimit = require('express-rate-limit');
 const router = express.Router();
 
 const db = require('../lib/db');
 const site = require('../data/site');
 const { checkPassword, requireAdmin } = require('../lib/adminAuth');
 
+// Brute-force protection on the shared admin password: at most 8 attempts per
+// IP per 15 minutes. Keyed by IP rather than session, since an attacker has
+// no session yet. Requires app.set('trust proxy', ...) in server.js so this
+// sees the real client IP behind Hostinger's reverse proxy, not the proxy's own.
+const loginLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 8,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: 'Too many login attempts. Please wait 15 minutes and try again.',
+  handler: (req, res) => {
+    res.status(429).render('admin/login', {
+      error: 'Too many login attempts. Please wait 15 minutes and try again.',
+      site,
+    });
+  },
+});
+
 router.get('/login', (req, res) => {
   if (req.session && req.session.isAdmin) return res.redirect('/admin');
   res.render('admin/login', { error: null, site });
 });
 
-router.post('/login', (req, res) => {
+router.post('/login', loginLimiter, (req, res) => {
   const { password } = req.body;
   if (!process.env.ADMIN_PASSWORD) {
     return res.render('admin/login', { error: 'ADMIN_PASSWORD is not set on the server yet — see README.', site });

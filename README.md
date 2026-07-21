@@ -143,6 +143,11 @@ automated payment gateway:
 3. The dashboard (`/admin`) lists every subscribe request with filters for
    Pending / Active / Cancelled, and buttons to change status. `/admin` is
    excluded from `robots.txt` and marked `noindex` so it won't appear in search.
+4. `/admin/login` is rate-limited to 8 attempts per IP per 15 minutes
+   (`routes/admin.js`) to slow down brute-force guessing of the shared password.
+   This relies on `app.set('trust proxy', 1)` in `server.js` to see the real
+   client IP through Hostinger's reverse proxy — without it, every request
+   would appear to come from the proxy's IP and share one global limit.
 
 ### The database
 
