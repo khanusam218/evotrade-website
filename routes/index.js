@@ -369,11 +369,17 @@ router.post('/subscribe', async (req, res) => {
   }
   const safePlan = ['monthly', 'yearly', 'taxaccountant-client'].includes(plan) ? plan : 'monthly';
 
-  const id = db.createSubscription({
-    name, email, phone, company,
-    productSlug, productName,
-    plan: safePlan,
-  });
+  let id;
+  try {
+    id = await db.createSubscription({
+      name, email, phone, company,
+      productSlug, productName,
+      plan: safePlan,
+    });
+  } catch (err) {
+    console.error('[db] createSubscription failed:', err.message);
+    return res.status(500).json({ ok: false, error: 'Something went wrong saving your request. Please try again or contact us directly.' });
+  }
 
   console.log('--- Subscribe request ---');
   console.log({ id, name, email, phone: phone || '—', company: company || '—', productName, plan: safePlan });

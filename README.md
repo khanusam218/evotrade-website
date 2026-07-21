@@ -151,14 +151,31 @@ automated payment gateway:
 
 ### The database
 
-Subscription requests are stored in `data-store/evotrade.sqlite`, created
-automatically on first run using Node's built-in `node:sqlite` module (no native
-dependency, no separate database server to manage). This directory is gitignored
-— **back it up separately** (it's not in version control, and Hostinger may not
-persist non-git files across every redeploy — verify this with a test entry after
-a redeploy before relying on it for real customer data). If you outgrow SQLite,
-the query functions in `lib/db.js` are the only place that would need to change
-to move to Postgres or another database.
+Subscription requests are stored in a **MySQL database hosted by Hostinger**
+(`lib/db.js`, via `mysql2`) — not a local file. A local SQLite file was tried
+first, but confirmed (by testing) to get wiped on every Hostinger redeploy,
+which would silently lose real customer records the next time any code shipped.
+MySQL lives outside the app's deployed code, so it survives deployments.
+
+**Setup:**
+1. hPanel → **Databases** → **Management** → create a new MySQL database and user.
+2. hPanel → **Databases** → **Remote MySQL** → check **"Any Host"**, select the
+   database, and save — this lets the Node app connect (it may run on different
+   infrastructure than the database itself).
+3. Set these environment variables (locally in `.env`, and in Hostinger's
+   Environment Variables panel — same pattern as the email/admin variables):
+   ```
+   DB_HOST=<the hostname shown on the Remote MySQL page, e.g. srv1948.hstgr.io>
+   DB_PORT=3306
+   DB_USER=<the MySQL username, e.g. u879338214_evotrade_admin>
+   DB_PASSWORD=<the MySQL password you set>
+   DB_NAME=<the MySQL database name, e.g. u879338214_evotradebiling>
+   ```
+4. The `subscriptions` table is created automatically on first use — no manual
+   migration needed.
+
+If a real customer's data is ever at stake, don't rely on assumption — verify
+persistence any time the underlying hosting setup changes.
 
 ## Customizing the color tokens
 

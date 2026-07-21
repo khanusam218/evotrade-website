@@ -46,20 +46,28 @@ router.post('/logout', (req, res) => {
   res.redirect('/admin/login');
 });
 
-router.get('/', requireAdmin, (req, res) => {
-  const status = ['pending', 'active', 'cancelled'].includes(req.query.status) ? req.query.status : null;
-  const subscriptions = db.listSubscriptions(status ? { status } : {});
-  const counts = db.countByStatus();
-  res.render('admin/dashboard', { subscriptions, counts, activeFilter: status, site });
+router.get('/', requireAdmin, async (req, res, next) => {
+  try {
+    const status = ['pending', 'active', 'cancelled'].includes(req.query.status) ? req.query.status : null;
+    const subscriptions = await db.listSubscriptions(status ? { status } : {});
+    const counts = await db.countByStatus();
+    res.render('admin/dashboard', { subscriptions, counts, activeFilter: status, site });
+  } catch (err) {
+    next(err);
+  }
 });
 
-router.post('/subscriptions/:id/status', requireAdmin, (req, res) => {
-  const { status, notes } = req.body;
-  if (!['pending', 'active', 'cancelled'].includes(status)) {
-    return res.status(400).send('Invalid status');
+router.post('/subscriptions/:id/status', requireAdmin, async (req, res, next) => {
+  try {
+    const { status, notes } = req.body;
+    if (!['pending', 'active', 'cancelled'].includes(status)) {
+      return res.status(400).send('Invalid status');
+    }
+    await db.updateStatus(Number(req.params.id), status, notes);
+    res.redirect(req.get('Referer') || '/admin');
+  } catch (err) {
+    next(err);
   }
-  db.updateStatus(Number(req.params.id), status, notes);
-  res.redirect(req.get('Referer') || '/admin');
 });
 
 module.exports = router;
