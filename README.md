@@ -156,12 +156,15 @@ Subscription requests are stored in a **MySQL database hosted by Hostinger**
 first, but confirmed (by testing) to get wiped on every Hostinger redeploy,
 which would silently lose real customer records the next time any code shipped.
 MySQL lives outside the app's deployed code, so it survives deployments.
+Confirmed live: a test subscription survived a full redeploy after this setup.
 
 **Setup:**
 1. hPanel → **Databases** → **Management** → create a new MySQL database and user.
 2. hPanel → **Databases** → **Remote MySQL** → check **"Any Host"**, select the
    database, and save — this lets the Node app connect (it may run on different
-   infrastructure than the database itself).
+   infrastructure than the database itself). If you ever reset the database
+   password, delete and re-add this rule too — it can retain the password from
+   whenever it was first created rather than picking up a later change.
 3. Set these environment variables (locally in `.env`, and in Hostinger's
    Environment Variables panel — same pattern as the email/admin variables):
    ```
